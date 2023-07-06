@@ -79,5 +79,10 @@ public class CartService {
 		
 		return cartDao.addNewItemsToCart(id,newItems,totalCost);
 	}
+
+	public Item updateItemOnly(int id, Item item) {
+		// TODO Auto-generated method stub
+		return cartDao.updateItemOnly(id,item);
+	}
 	
 }

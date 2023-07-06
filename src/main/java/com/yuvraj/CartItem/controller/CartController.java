@@ -23,6 +23,7 @@ public class CartController {
 	@Autowired
 	CartService cartService;
 	
+	
 	@PostMapping
 	public Cart saveCart(@RequestBody Cart cart) {
 		return cartService.saveCart(cart);
@@ -60,5 +61,10 @@ public class CartController {
 	@PutMapping("/addNewItemsToCart")
 	public Cart addNewItemsToCart(@RequestParam int id ,@RequestBody List<Item> newItems) {
 		return cartService.addNewItemsToCart(id, newItems);
+	}
+	
+	@PutMapping("/updateItemOnly")
+	public Item updateItemOnly(@RequestParam int id, @RequestBody Item item) {
+		return cartService.updateItemOnly(id,item);
 	}
 }

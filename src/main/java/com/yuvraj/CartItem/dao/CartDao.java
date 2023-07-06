@@ -9,12 +9,15 @@ import org.springframework.stereotype.Repository;
 import com.yuvraj.CartItem.dto.Cart;
 import com.yuvraj.CartItem.dto.Item;
 import com.yuvraj.CartItem.repo.CartRepo;
+import com.yuvraj.CartItem.repo.ItemRepo;
 
 @Repository
 public class CartDao {
 	@Autowired
 	CartRepo cartRepo;
 	
+	@Autowired
+	ItemRepo itemRepo;
 	public Cart saveCart(Cart cart) {
 		return cartRepo.save(cart);
 	}
@@ -60,7 +63,15 @@ public class CartDao {
 		if(optional.isEmpty()) {
 			return null;
 		}
-		
+		Cart dbCart = optional.get();
+		List<Item> dbItems = dbCart.getItems();
+		List<Item> items = cart.getItems();
+		for(int i=0;i<dbItems.size();i++) {
+			Item item = items.get(i);
+			Item item2 = dbItems.get(i);
+			item.setId(item2.getId());
+		}
+		cart.setId(id);
 		return cartRepo.save(cart);
 	}
 
@@ -77,5 +88,16 @@ public class CartDao {
 		list.addAll(newItems);
 		cart.setItems(list);
 		return cartRepo.save(cart);
+	}
+
+	public Item updateItemOnly(int id, Item item) {
+		// TODO Auto-generated method stub
+		Optional<Item> optional = itemRepo.findById(id);
+		if(optional.isEmpty()) {
+			return null;
+		}
+		item.setId(id);
+		
+		return itemRepo.save(item);
 	}
 }
